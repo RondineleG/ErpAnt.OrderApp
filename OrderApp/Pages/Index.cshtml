@@ -1,0 +1,97 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Dados do Cliente</h3>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Enviar Para:</strong> @Model.Order.Name</li>
+                <li class="list-group-item"><strong>Endereço:</strong> @Model.Order.Address</li>
+                <li class="list-group-item"><strong>Telefone:</strong> @Model.Order.Phone</li>
+                <li class="list-group-item"><strong>Data da Compra:</strong> @Model.Order.Date</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Status do Envio</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="progress col-md-10 col-md-push-1">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="@Model.ShippingPercent" aria-valuemin="0" aria-valuemax="100" style="width: @Model.ShippingPercent%;"></div>
+                </div>
+            </div>
+            <div class="row step">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 @Model.GetShippingStepClass(0)">
+                    <span class="fa glyphicon glyphicon-shopping-cart"></span>
+                    <p>Pedido</p>
+                </div>
+                <div class="col-md-2 @Model.GetShippingStepClass(1)">
+                    <span class="fa glyphicon glyphicon-check"></span>
+                    <p>Pedido Preenchido</p>
+                </div>
+                <div class="col-md-2 @Model.GetShippingStepClass(2)">
+                    <span class="fa glyphicon glyphicon-plane"></span>
+                    <p>Enviado</p>
+                </div>
+                <div class="col-md-2 @Model.GetShippingStepClass(3)">
+                    <span class="fa glyphicon glyphicon-road"></span>
+                    <p>Sai Para Entrega</p>
+                </div>
+                <div class="col-md-2 @Model.GetShippingStepClass(4)">
+                    <span class="fa glyphicon glyphicon-home"></span>
+                    <p>Recebido</p>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">Dados do Pedido</div>
+        <div class="panel-body">
+            <p>
+                Seu pedido foi colocado sob os termos do seu
+                contrato corporativo. Use esses itens de acordo 
+                com todas as leis municipais, estaduais, nacionais 
+                 e galácticas.
+            </p>
+        </div>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th class="text-right">Quantidade</th>
+                    <th class="text-right">Preço Unitario</th>
+                    <th class="text-right">Subtotal</th>
+                </tr>
+            </thead>
+            @foreach (var order in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@order.product.Name</td>
+                    <td class="text-right">@order.quantity</td>
+                    <td class="text-right">@order.product.Price</td>
+                    <td class="text-right">@(order.product.Price * order.quantity)</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><mark>@Model.Total</mark></td>
+            </tr>
+        </table>
+    </div>
+</div>
